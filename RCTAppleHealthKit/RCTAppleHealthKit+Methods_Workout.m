@@ -145,7 +145,20 @@
 
             return;
         }
-        callback(@[[NSNull null], [[workout UUID] UUIDString]]);
+
+        HKQuantityType *activeEnergyType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierActiveEnergyBurned];
+        HKQuantitySample *activeEnergyBurnedSample = [HKQuantitySample quantitySampleWithType:activeEnergyType quantity:totalEnergyBurned startDate:startDate endDate:endDate];
+
+        [self.healthStore saveObject:activeEnergyBurnedSample withCompletion:^(BOOL success, NSError * _Nullable error) {
+            if (!success) {
+                NSLog(@"An error occurred saving the active energy burned sample: %@.", error);
+                callback(@[RCTMakeError(@"An error occured saving the workout", error, nil)]);
+
+                return;
+            }
+
+            callback(@[[NSNull null], [[workout UUID] UUIDString]]);
+        }];
     };
 
     [self.healthStore saveObject:workout withCompletion:completion];
