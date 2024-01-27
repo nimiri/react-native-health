@@ -147,7 +147,7 @@
         }
 
         HKQuantityType *activeEnergyType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierActiveEnergyBurned];
-        HKQuantitySample *activeEnergyBurnedSample = [HKQuantitySample quantitySampleWithType:activeEnergyType quantity:totalEnergyBurned startDate:startDate endDate:endDate];
+        HKQuantitySample *activeEnergyBurnedSample = [HKQuantitySample quantitySampleWithType:activeEnergyType quantity:totalEnergyBurned startDate:startDate endDate:endDate, metadata:@{HKMetadataKeyWorkout: workout}];
 
         [self.healthStore saveObject:activeEnergyBurnedSample withCompletion:^(BOOL success, NSError * _Nullable error) {
             if (!success) {
