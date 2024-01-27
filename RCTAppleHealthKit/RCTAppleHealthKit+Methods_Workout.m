@@ -149,7 +149,7 @@
         HKQuantityType *activeEnergyType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierActiveEnergyBurned];
         HKQuantitySample *activeEnergyBurnedSample = [HKQuantitySample quantitySampleWithType:activeEnergyType quantity:totalEnergyBurned startDate:startDate endDate:endDate, metadata:@{HKMetadataKeyWorkout: workout}];
 
-        [self.healthStore saveObject:activeEnergyBurnedSample withCompletion:^(BOOL success, NSError * _Nullable error) {
+        [self.healthStore addSamples:@[activeEnergyBurnedSample] toWorkout:workout withCompletion:^(BOOL success, NSError * _Nullable error) {
             if (!success) {
                 NSLog(@"An error occurred saving the active energy burned sample: %@.", error);
                 callback(@[RCTMakeError(@"An error occured saving the workout", error, nil)]);
